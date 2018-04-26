@@ -12,6 +12,8 @@ RUN curl https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docke
 
 COPY docker-utils.sh /docker-utils.sh
 
+RUN touch ~/.bashrc && echo "source /docker-utils.sh" >> ~/.bashrc
+
 COPY requirements.txt /requirements.txt
 
 RUN pip install --upgrade pip && pip install -r requirements.txt && rm -r /root/.cache
