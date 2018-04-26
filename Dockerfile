@@ -4,7 +4,7 @@ ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 18.03.0-ce
 
 RUN apk --update --no-cache --progress \
-    add curl device-mapper gcc python2 python2-dev py-pip iptables bash gawk sed grep bc coreutils && \
+    add curl device-mapper gcc python2 python2-dev py-pip build-base iptables bash gawk sed grep bc coreutils && \
     rm -rf /var/cache/apk/*
 
 RUN curl https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz | tar zx && \
