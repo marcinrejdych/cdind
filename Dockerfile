@@ -3,7 +3,7 @@ FROM openjdk:8u151-jdk-alpine3.7
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 18.03.0-ce
 
-RUN apk --update --no-cache --progress \
+RUN apk --update --no-cache \
     add curl device-mapper gcc python2 python2-dev py-pip build-base iptables bash gawk sed grep bc coreutils && \
     rm -rf /var/cache/apk/*
 
