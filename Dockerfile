@@ -4,15 +4,13 @@ ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.05.0-ce
 
 RUN apk --update --no-cache \
-    add curl device-mapper gcc python2 python2-dev py-pip build-base iptables bash gawk sed grep bc coreutils && \
+    add curl device-mapper gcc python2 python2-dev py-pip build-base iptables bash gawk sed grep bc coreutils git && \
     rm -rf /var/cache/apk/*
 
 RUN curl https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz | tar zx && \
     mv /docker/* /bin/ && chmod +x /bin/docker*
 
 COPY docker-utils.sh /docker-utils.sh
-
-RUN touch ~/.bashrc && echo "source /docker-utils.sh" >> ~/.bashrc
 
 COPY requirements.txt /requirements.txt
 
