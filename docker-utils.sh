@@ -87,12 +87,9 @@ echo $! > /tmp/docker.pid
 
 sleep 1
 
-echo waiting for docker to come up...
 until docker info >/dev/null 2>&1; do
   sleep 1
-  if ! kill -0 "$(cat /tmp/docker.pid)" 2>/dev/null; then
-    return 1
-  fi
+  echo waiting for docker to come up...
 done
 
 }
