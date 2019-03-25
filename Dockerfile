@@ -1,7 +1,7 @@
 FROM alpine:3.9
 
 RUN apk --update --no-cache \
-    add bash less docker jq openssh ca-certificates xz \
+    add bash less docker jq openssh ca-certificates xz nss \
     openjdk8 \
     curl device-mapper gcc python2 python2-dev py-pip build-base iptables bash gawk sed grep bc coreutils git && \
     rm -rf /var/cache/apk/*
