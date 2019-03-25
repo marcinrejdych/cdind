@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.9
 
 RUN apk --update --no-cache \
     add bash less docker jq openssh ca-certificates xz \
