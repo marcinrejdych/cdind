@@ -2,6 +2,7 @@
 # Ref: https://github.com/concourse/docker-image-resource/blob/master/assets/common.sh
 
 LOG_FILE=${LOG_FILE:-/tmp/docker.log}
+STARTUP_TIMEOUT=${STARTUP_TIMEOUT:-240}
 
 
 sanitize_cgroups() {
@@ -69,15 +70,28 @@ start_docker() {
     dockerd --data-root /scratch/docker ${server_args} >$LOG_FILE 2>&1 &
     echo $! > /tmp/docker.pid
 
-    trap stop_docker EXIT
+    try_start() {
+        dockerd --data-root /scratch/docker ${server_args} >$LOG_FILE 2>&1 &
+        echo $! > /tmp/docker.pid
 
-    sleep 1
+        sleep 1
 
-    if ! docker info >/dev/null 2>&1; then
         echo waiting for docker to come up...
         until docker info >/dev/null 2>&1; do
           sleep 1
+          if ! kill -0 "$(cat /tmp/docker.pid)" 2>/dev/null; then
+            return 1
+          fi
         done
+    }
+
+    export server_args LOG_FILE
+    declare -fx try_start
+    trap stop_docker EXIT
+
+    if ! timeout ${STARTUP_TIMEOUT} bash -ce 'while true; do try_start && break; done'; then
+        echo Docker failed to start within ${STARTUP_TIMEOUT} seconds.
+        return 1
     fi
 }
 
