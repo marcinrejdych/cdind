@@ -67,9 +67,6 @@ start_docker() {
     local mtu=$(cat /sys/class/net/$(ip route get 8.8.8.8|awk '{ print $5 }')/mtu)
     local server_args="--mtu ${mtu} -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
 
-    dockerd --data-root /scratch/docker ${server_args} >$LOG_FILE 2>&1 &
-    echo $! > /tmp/docker.pid
-
     try_start() {
         dockerd --data-root /scratch/docker ${server_args} >$LOG_FILE 2>&1 &
         echo $! > /tmp/docker.pid
