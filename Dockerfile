@@ -10,6 +10,9 @@ COPY docker-utils.sh /docker-utils.sh
 
 COPY requirements.txt /requirements.txt
 
-RUN pip install --upgrade pip && pip install -r requirements.txt && rm -r /root/.cache
+RUN pip install --upgrade pip && \
+    pip install virtualenv && \
+    pip install -r requirements.txt && \
+    rm -r /root/.cache
 
 ENTRYPOINT [ "/bin/docker", "daemon" ]
