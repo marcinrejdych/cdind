@@ -8,6 +8,11 @@ RUN apk --update --no-cache \
 
 COPY docker-utils.sh /docker-utils.sh
 
-RUN pip install --upgrade pip && pip install virtualenv && rm -r /root/.cache
+COPY requirements.txt /requirements.txt
+
+RUN pip install --upgrade pip && \
+    pip install virtualenv && \
+    pip install -r requirements.txt && \
+    rm -r /root/.cache
 
 ENTRYPOINT [ "/bin/docker", "daemon" ]
